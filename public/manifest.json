@@ -1,0 +1,12 @@
+{
+    "name": "Bookmark Sort",
+    "description": "This extension is made for demonstration purposes",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": [
+        "bookmarks"
+    ],
+    "background": {
+        "service_worker": "sorter.js"
+    }
+}
