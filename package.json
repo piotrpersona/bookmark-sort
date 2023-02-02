@@ -1,0 +1,9 @@
+{
+  "name": "bookmark-sort",
+  "version": "1.0.0",
+  "description": "Browser extension to sort bookmarks",
+  "main": "src/main.ts",
+  "repository": "https://github.com/piotrpersona/bookmarks-sort",
+  "author": "Piotr Persona",
+  "license": "MIT"
+}
