@@ -145,7 +145,7 @@ const App: FC = () => {
       <Text>Github source code & Issues: </Text>
       <Button
         type="link"
-        href="https://github.com/piotrpersona/bookmarks-sort"
+        href="https://github.com/piotrpersona/bookmark-sort"
         target="_blank"
         icon={<GithubOutlined />}
         shape={'circle'}
