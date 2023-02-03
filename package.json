@@ -4,10 +4,8 @@
   "description": "Browser extension sorting bookmarks.",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack/webpack.config.js",
-    "cbuild": "INLINE_RUNTIME_CHUNK=false craco build",
+    "build": "INLINE_RUNTIME_CHUNK=false craco build",
     "start": "react-scripts start",
-    "reactbuild": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
