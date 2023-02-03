@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import type { FC } from 'react';
-import { Button, Select, TreeSelect } from 'antd';
+import { Button, Switch, Select, TreeSelect } from 'antd';
 import 'antd/dist/reset.css';
 import { DefaultOptionType } from 'rc-tree-select/lib/TreeSelect';
+import { sortBookmarks } from './sort/Sort';
 
 class Tree {
   root: DefaultOptionType[];
@@ -10,7 +11,7 @@ class Tree {
   constructor(node: chrome.bookmarks.BookmarkTreeNode) {
     let root = {
       value: node.id,
-      title: node.title,
+      title: 'bookmarks (root)',
       children: [],
     }
     this.addNode(node, root.children)
@@ -38,28 +39,33 @@ const App: FC = () => {
     getBookmarksTree()
   });
 
-  const [value, setValue] = useState<string>();
-  const [bookmarks, setBookmarks] = useState<Tree>();
+  const [selectedBookmarks, setSelectedBookmarks] = useState<string[]>();
+  const [loadedBookmarks, setLoadedBookmarks] = useState<Tree>();
+  const [optionRecursive, setOptionRecursive] = useState<boolean>(false);
 
   const handleSelectSortBy = (value: string) => {
-    console.log(`selected ${value}`);
+    console.log(`selected handle ${value}`);
   };
 
-  const handleSelectBookmarks = (newValue: string) => {
-    console.log(newValue);
-    setValue(newValue);
+  const handleSelectBookmarks = (bookmarks: string[]) => {
+    setSelectedBookmarks(bookmarks);
   }
 
   const getBookmarksTree = () => {
     chrome.bookmarks.getTree((nodes: chrome.bookmarks.BookmarkTreeNode[]) => {
-      console.log(nodes)
       if (nodes.length == 0) {
         return
       }
       let root = nodes[0]
       let bookmarksTree = new Tree(root)
-      console.log(bookmarksTree)
-      setBookmarks(bookmarksTree)
+      setLoadedBookmarks(bookmarksTree)
+    })
+  }
+
+  const sortSelectedBookmarks = () => {
+    console.log('selected', selectedBookmarks)
+    selectedBookmarks?.forEach(bookmarkId => {
+      sortBookmarks(bookmarkId, optionRecursive)
     })
   }
 
@@ -78,16 +84,22 @@ const App: FC = () => {
       <TreeSelect
         showSearch
         style={{ width: 400 }}
-        value={value}
+        value={selectedBookmarks}
         dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
         placeholder="Please select bookmarks to be sorted"
         allowClear
         multiple
-        treeDefaultExpandAll
         onChange={handleSelectBookmarks}
-        treeData={bookmarks?.root}
+        treeData={loadedBookmarks?.root}
       />
-      <Button type="primary">sort</Button>
+      <Switch
+        defaultChecked={optionRecursive}
+        onChange={(checked) => setOptionRecursive(checked)}
+      />
+      <Button
+        type="primary"
+        onClick={() => sortSelectedBookmarks()}
+        >sort</Button>
     </div>
   )
 }
