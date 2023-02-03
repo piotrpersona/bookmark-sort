@@ -2,6 +2,36 @@ import { useState, useEffect } from 'react';
 import type { FC } from 'react';
 import { Button, Select, TreeSelect } from 'antd';
 import 'antd/dist/reset.css';
+import { DefaultOptionType } from 'rc-tree-select/lib/TreeSelect';
+
+class Tree {
+  root: DefaultOptionType[];
+
+  constructor(node: chrome.bookmarks.BookmarkTreeNode) {
+    let root = {
+      value: node.id,
+      title: node.title,
+      children: [],
+    }
+    this.addNode(node, root.children)
+    this.root = [root]
+  }
+
+  addNode(node: chrome.bookmarks.BookmarkTreeNode, siblings?: DefaultOptionType[]): void {
+    if (node.children === undefined || node.children.length == 0) {
+      return
+    }
+    node.children.forEach(child => {
+      let leaf = {
+        value: child.id,
+        title: child.title,
+        children: [],
+      }
+      siblings!.push(leaf)
+      this.addNode(child, leaf.children)
+    })
+  };
+}
 
 const App: FC = () => {
   useEffect(() => {
@@ -9,7 +39,7 @@ const App: FC = () => {
   });
 
   const [value, setValue] = useState<string>();
-  const [bookmarks, setBookmarks] = useState<string>();
+  const [bookmarks, setBookmarks] = useState<Tree>();
 
   const handleSelectSortBy = (value: string) => {
     console.log(`selected ${value}`);
@@ -23,10 +53,13 @@ const App: FC = () => {
   const getBookmarksTree = () => {
     chrome.bookmarks.getTree((nodes: chrome.bookmarks.BookmarkTreeNode[]) => {
       console.log(nodes)
-      // console.log('hehrehrhe', nodes);
-      //   nodes.forEach((node: chrome.bookmarks.BookmarkTreeNode) => {
-      //     sortRecursive(node.id)
-      // })
+      if (nodes.length == 0) {
+        return
+      }
+      let root = nodes[0]
+      let bookmarksTree = new Tree(root)
+      console.log(bookmarksTree)
+      setBookmarks(bookmarksTree)
     })
   }
 
@@ -85,7 +118,7 @@ const App: FC = () => {
         multiple
         treeDefaultExpandAll
         onChange={handleSelectBookmarks}
-        treeData={treeData}
+        treeData={bookmarks?.root}
       />
       <Button type="primary">sort</Button>
     </div>

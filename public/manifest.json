@@ -7,23 +7,13 @@
         "bookmarks"
     ],
     "action": {
-        "default_icon": {
-            "16": "bs16.png",
-            "48": "bs48.png",
-            "128": "bs128.png"
-        }
+        "default_icon": "bs128.png",
+        "default_popup": "index.html",
+        "default_tile": "Bookmark Sort"
     },
-    "background": {
-        "service_worker": "background.js"
-    },
-    "content_scripts": [
-        {
-            "matches": [
-                "<all_urls>"
-            ],
-            "js": [
-                "content.js"
-            ]
-        }
-    ]
+    "icons": {
+        "16": "bs128.png",
+        "48": "bs128.png",
+        "128": "bs128.png"
+    }
 }
