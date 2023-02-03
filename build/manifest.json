@@ -16,5 +16,8 @@
         "32": "bs128.png",
         "48": "bs128.png",
         "128": "bs128.png"
+    },
+    "background": {
+        "service_worker": "static/js/background.js"
     }
 }

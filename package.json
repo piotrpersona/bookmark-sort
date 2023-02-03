@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack/webpack.config.js",
+    "cbuild": "INLINE_RUNTIME_CHUNK=false craco build",
     "start": "react-scripts start",
     "reactbuild": "react-scripts build",
     "test": "react-scripts test",
