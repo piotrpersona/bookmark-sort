@@ -4,7 +4,7 @@
 
 Google Chrome Extension to sort bookmarks. Written in TypeScript using Antdesign/React.js.
 
-![](./images/images/bookmark-sort.jpg)
+![](./images/images/bookmark-sort.png)
 
 ## Demo
 
