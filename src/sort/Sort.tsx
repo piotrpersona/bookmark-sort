@@ -18,7 +18,7 @@ function sortChildren(parent: string, attribute: Attribute) {
         case Attribute.DateModified:
             sortFn = (a: chrome.bookmarks.BookmarkTreeNode, b: chrome.bookmarks.BookmarkTreeNode) => a.dateGroupModified! < b.dateGroupModified! ? 1 : 0
             break;
-    }   
+    }
 
     chrome.bookmarks.getChildren(parent, (children: chrome.bookmarks.BookmarkTreeNode[]) => {
         children.sort(sortFn)

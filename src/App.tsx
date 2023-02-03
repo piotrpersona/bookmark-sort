@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { FC } from 'react';
-import { Divider, Form, Button, Switch, Select, TreeSelect } from 'antd';
+import { Divider, message, Form, Button, Switch, Select, TreeSelect } from 'antd';
 import { GithubOutlined, OrderedListOutlined } from '@ant-design/icons';
 import 'antd/dist/reset.css';
 import { DefaultOptionType } from 'rc-tree-select/lib/TreeSelect';
@@ -43,6 +43,7 @@ const App: FC = () => {
     getBookmarksTree()
   });
 
+  const [messageApi, contextHolder] = message.useMessage();
   const [selectedBookmarks, setSelectedBookmarks] = useState<string[]>();
   const [loadedBookmarks, setLoadedBookmarks] = useState<Tree>();
   const [optionRecursive, setOptionRecursive] = useState<boolean>(false);
@@ -68,13 +69,16 @@ const App: FC = () => {
   }
 
   const sortSelectedBookmarks = () => {
-    console.log('selected', selectedBookmarks)
     selectedBookmarks?.forEach(bookmarkId => {
       sortBookmarks(bookmarkId, {
         recursive: optionRecursive,
         attribute: optionAttribute
       })
     })
+    messageApi.open({
+      type: 'success',
+      content: 'Sorted!',
+    });
   }
 
   return (
